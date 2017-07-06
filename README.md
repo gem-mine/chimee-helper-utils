@@ -1,2 +1,2 @@
-# chimee-helper-utils
-helper of chimee, mainly are utils
+# chimee-helper
+utils of chimee
