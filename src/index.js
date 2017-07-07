@@ -31,19 +31,6 @@ export function transObjectAttrIntoArray (obj: Object, fn: Function = (a, b) => 
     return order.concat(obj[key]);
   }, []);
 }
-// ********************** class operation ***************************
-// class MixinBuilder {
-//   constructor (superclass) {
-//     this.superclass = superclass || class {};
-//   }
-
-//   with (...mixins) {
-//     return mixins.reduce((c, mixin) => mixin(c), this.superclass);
-//   }
-// }
-// export const mix = (superclass) => {
-//   return new MixinBuilder(superclass);
-// };
 /**
  * run a queue one by one.If include function reject or return false it will stop
  * @param  {Array} queue the queue which we want to run one by one
@@ -106,8 +93,8 @@ export function setFrozenAttr (obj: Object, key: string, value: any) {
  * set attr on an Object. We will bind getter and setter on it if you provide to us
  * @param {!primitive} obj
  * @param {string} key
- * @param {Function} options.get
- * @param {Function} options.set
+ * @param {Function} get
+ * @param {Function} set
  * @param {String} prefix the origin data's prefix. We do not plan to save it by closure.
  */
 export function setAttrGetterAndSetter (obj: Object, key: string, {get, set}: {get?: Function, set?: Function} = {}, prefix: string = '__') {
