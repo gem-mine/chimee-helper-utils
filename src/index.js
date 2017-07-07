@@ -398,7 +398,7 @@ export function formatDate (date: Date = new Date(), pattern: string = 'yyyy-MM-
  */
 export function getLocalStorage (key: string): string | null | void {
   try {
-    return window.localStorage && localStorage.getItem(key);
+    return window.localStorage.getItem(key);
   } catch(e) {
     try {
       const regRt = document.cookie.match(new RegExp('(^| )' + key + '=([^;]*)(;|$)'));
@@ -416,15 +416,14 @@ export function getLocalStorage (key: string): string | null | void {
  */
 export function setLocalStorage (key: string, val: string) {
   try {
-    window.localStorage && localStorage.setItem(key, val);
+    window.localStorage.setItem(key, val);
   } catch(e) {
     const expires = new Date();
     // 默认存储300天
     expires.setTime(expires.getTime() + 24 * 3600 * 1000 * 300);
     try {
       // $FlowFixMe: Fix later
-      document.cookie = key + '=' + escape(val) + ';expires=' + expires.toGMTString() + ';path=/;';
+      document.cookie = key + '=' + escape(val) + ';expires=' + expires.toUTCString() + ';path=/;';
     } catch(e) {}
   }
 }
-
