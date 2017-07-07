@@ -16,7 +16,7 @@ npm install chimee-helper-utils --save
 
 if you are using `flow`, you should import our flow defination, by adding this to your `.flowconfig`.
 
-```ya
+```
 [ignore]
 
 [include]
