@@ -1,4 +1,4 @@
-# Chimee-helper-utils
+# chimee-helper-utils
 
 [![Build Status](https://img.shields.io/travis/Chimeejs/chimee-helper-utils/master.svg?style=flat-square)](https://travis-ci.org/Chimeejs/chimee-helper-utils.svg?branch=master)
 [![Coverage Status](https://img.shields.io/coveralls/Chimeejs/chimee-helper-utils/master.svg?style=flat-square)](https://coveralls.io/github/Chimeejs/chimee-helper-utils?branch=master)
@@ -11,7 +11,7 @@ utils of chimee
 ## get started
 
 ```shell
-npm install toxic-utils --save
+npm install chimee-helper-utils --save
 ```
 
 if you are using `flow`, you should import our flow defination, by adding this to your `.flowconfig`.
