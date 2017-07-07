@@ -422,7 +422,6 @@ export function setLocalStorage (key: string, val: string) {
     // 默认存储300天
     expires.setTime(expires.getTime() + 24 * 3600 * 1000 * 300);
     try {
-      // $FlowFixMe: Fix later
       document.cookie = key + '=' + escape(val) + ';expires=' + expires.toUTCString() + ';path=/;';
     } catch(e) {}
   }
