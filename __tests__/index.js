@@ -1,38 +1,62 @@
 import * as utils from 'index';
 
-test('runRejectableQueue', async () => {
-  expect(utils.runRejectableQueue([])).resolves.toBe();
-  expect(utils.runRejectableQueue([1, 2, 3])).resolves.toBe();
-  expect(utils.runRejectableQueue([1, 2, false, 3])).rejects.toMatch('stop');
-  expect(utils.runRejectableQueue([
-    () => {},
-    () => {},
-    () => {}
-  ])).resolves.toBe();
-  expect(utils.runRejectableQueue([
-    () => {},
-    Promise.resolve(),
-    () => new Promise(resolve => resolve())
-  ])).resolves.toBe();
-  expect(utils.runRejectableQueue([
-    () => {},
-    Promise.reject(),
-    () => new Promise(resolve => resolve())
-  ])).rejects.toMatch('stop');
-  expect(utils.runRejectableQueue([
-    () => {},
-    Promise.resolve(),
-    () => new Promise((resolve, reject) => reject())
-  ])).rejects.toMatch('stop');
-  const checkArray = [];
-  await expect(utils.runRejectableQueue([
-    () => checkArray.push(1),
-    () => checkArray.push(2),
-    () => false,
-    () => checkArray.push(3),
-    () => checkArray.push(4),
-  ])).rejects.toMatch('stop');
-  expect(checkArray).toEqual([1, 2]);
+describe('runRejectableQueue', async () => {
+  test('empty', () => {
+    expect(utils.runRejectableQueue([])).resolves.toBe();
+  });
+  test('no function', () => {
+    expect(utils.runRejectableQueue([1, 2, 3])).resolves.toBe();
+  });
+  test('no function but has a false', () => {
+    expect(utils.runRejectableQueue([1, 2, false, 3])).rejects.toMatch('stop');
+  });
+  test('functions', () => {
+    expect(utils.runRejectableQueue([
+      () => {},
+      () => {},
+      () => {}
+    ])).resolves.toBe();
+  });
+  test('functions and promise', () => {
+    expect(utils.runRejectableQueue([
+      () => {},
+      Promise.resolve(),
+      () => new Promise(resolve => resolve())
+    ])).resolves.toBe();
+  });
+  test('function and promise.reject', () => {
+    expect(utils.runRejectableQueue([
+      () => {},
+      Promise.reject(),
+      () => new Promise(resolve => resolve())
+    ])).rejects.toMatch('stop');
+  });
+  test('function return promise.reject', () => {
+    expect(utils.runRejectableQueue([
+      () => {},
+      Promise.resolve(),
+      () => new Promise((resolve, reject) => reject())
+    ])).rejects.toMatch('stop');
+  });
+  test('order', async () => {
+    const checkArray = [];
+    await expect(utils.runRejectableQueue([
+      () => checkArray.push(1),
+      () => checkArray.push(2),
+      () => false,
+      () => checkArray.push(3),
+      () => checkArray.push(4),
+    ])).rejects.toMatch('stop');
+    expect(checkArray).toEqual([1, 2]);
+  });
+  test('error catch', async () => {
+    const error = new Error('i am an error');
+    await expect(utils.runRejectableQueue([
+      () => {},
+      () => {},
+      () => {throw error;}
+    ])).rejects.toBe(error);
+  });
 });
 
 test('runStoppableQueue', async () => {

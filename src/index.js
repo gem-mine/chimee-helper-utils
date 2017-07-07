@@ -49,7 +49,7 @@ export function runRejectableQueue (queue: Array<any>, ...args: any): Promise<*>
       if(result === false) return reject('stop');
       return Promise.resolve(result)
         .then(() => step(index + 1))
-        .catch(() => reject('stop'));
+        .catch(err => reject(err || 'stop'));
     };
     step(0);
   });
