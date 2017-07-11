@@ -87,7 +87,6 @@ export function setFrozenAttr (obj: Object, key: string, value: any) {
   });
 }
 
-
 function checkContinuation (uint8array, start, checkLength) {
   const array = uint8array;
   if (start + checkLength < array.length) {
