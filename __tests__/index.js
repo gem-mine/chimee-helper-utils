@@ -110,41 +110,6 @@ test('setFrozenAttr', () => {
   expect(keys).toEqual([]);
 });
 
-test('setAttrGetterAndSetter', () => {
-  const obj = {};
-  expect(() => utils.setAttrGetterAndSetter(1, 2)).toThrow();
-  expect(() => utils.setAttrGetterAndSetter(obj, 2)).toThrow();
-  const result = [];
-  const set = val => {
-    result.push(val);
-    return ++val;
-  };
-  utils.setAttrGetterAndSetter(obj, 'a', {set});
-  obj.a = 1;
-  expect(obj.a).toBe(2);
-  expect(obj.__a).toBe(2);
-  expect(result).toEqual([1]);
-  utils.setAttrGetterAndSetter(obj, 'b', {set}, '$');
-  obj.b = 1;
-  expect(obj.b).toBe(2);
-  expect(obj.__b).toBe(undefined);
-  expect(obj.$b).toBe(2);
-  expect(result).toEqual([1, 1]);
-  const option = {
-    get () {return this.__a;},
-    set (val) {this.__a = val + 2;}
-  };
-  utils.setAttrGetterAndSetter(obj, 'c', option);
-  obj.c = 3;
-  expect(obj.a).toBe(5);
-  expect(obj.c).toBe(5);
-  expect(obj.__a).toBe(5);
-  expect(obj.__c).toBe(undefined);
-  utils.setAttrGetterAndSetter(obj, 'd', {});
-  expect(() => {obj.d = 3;}).toThrow();
-  expect(obj.d).toBe();
-});
-
 test('transObjectAttrIntoArray', () => {
   expect(utils.transObjectAttrIntoArray({})).toEqual([]);
   expect(utils.transObjectAttrIntoArray({1: 'a', 2: 'b'})).toEqual(['a', 'b']);

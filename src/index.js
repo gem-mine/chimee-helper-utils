@@ -73,11 +73,8 @@ export function runStoppableQueue (queue: Array<any>, ...args: any): boolean {
   return step(0);
 }
 /**
- * set an attribute to an object which is frozen.
+ * 🚫[DEPRECATED]set an attribute to an object which is frozen.
  * Means you can't remove it, iterate it or rewrite it.
- * @param {!primitive} obj
- * @param {string} key
- * @param {Anything} value
  */
 export function setFrozenAttr (obj: Object, key: string, value: any) {
   if(isPrimitive(obj)) throw TypeError('setFrozenAttr obj parameter can not be primitive type');
@@ -89,35 +86,7 @@ export function setFrozenAttr (obj: Object, key: string, value: any) {
     writable: false
   });
 }
-/**
- * set attr on an Object. We will bind getter and setter on it if you provide to us
- * @param {!primitive} obj
- * @param {string} key
- * @param {Function} get
- * @param {Function} set
- * @param {String} prefix the origin data's prefix. We do not plan to save it by closure.
- */
-export function setAttrGetterAndSetter (obj: Object, key: string, {get, set}: {get?: Function, set?: Function} = {}, prefix: string = '__') {
-  if(isPrimitive(obj)) throw TypeError('setFrozenAttr obj parameter can not be primitive type');
-  if(!isString(key)) throw TypeError('setAttrGetterAndSetter key parameter must be String');
-  const originalData = obj[key];
-  if(!isFunction(get)) {
-    Object.defineProperty(obj, prefix + key, {
-      value: originalData,
-      configurable: true,
-      writable: true,
-      enumerable: false
-    });
-    get = function () {return this[prefix + key];};
-    if(set && isFunction(set)) {
-      const originSetter = set;
-      set = function (...args) {
-        this[prefix + key] = originSetter.call(this, ...args);
-      };
-    }
-  }
-  Object.defineProperty(obj, key, {get, set});
-}
+
 
 function checkContinuation (uint8array, start, checkLength) {
   const array = uint8array;
@@ -317,7 +286,7 @@ export function formatTime (time: number) {
 }
 
 /**
- * 给obj对象扩展上trans方法，用以实现methodName对应的属性方法包装为静态函数且保持上下文的功能
+ * 🚫[DEPRECATED]给obj对象扩展上trans方法，用以实现methodName对应的属性方法包装为静态函数且保持上下文的功能
  * @param  {Object} obj 目标对象
  */
 export function addTransMethod (obj: Object) {
