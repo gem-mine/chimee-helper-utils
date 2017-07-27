@@ -57,6 +57,13 @@ describe('runRejectableQueue', async () => {
       () => {throw error;}
     ])).rejects.toBe(error);
   });
+  test('reject info catch', async () => {
+     await expect(utils.runRejectableQueue([
+      () => {},
+      () => Promise.reject('abc'),
+      () => {}
+    ])).rejects.toBe('abc');
+  });
 });
 
 test('runStoppableQueue', async () => {
