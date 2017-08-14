@@ -72,20 +72,6 @@ export function runStoppableQueue (queue: Array<any>, ...args: any): boolean {
   };
   return step(0);
 }
-/**
- * 🚫[REMOVED IN 0.2.0]set an attribute to an object which is frozen.
- * Means you can't remove it, iterate it or rewrite it.
- */
-// export function setFrozenAttr (obj: Object, key: string, value: any) {
-//   if(isPrimitive(obj)) throw TypeError('setFrozenAttr obj parameter can not be primitive type');
-//   if(!isString(key)) throw TypeError('setFrozenAttr key parameter must be String');
-//   Object.defineProperty(obj, key, {
-//     value,
-//     configurable: false,
-//     enumerable: false,
-//     writable: false
-//   });
-// }
 
 function checkContinuation (uint8array, start, checkLength) {
   const array = uint8array;
@@ -283,25 +269,6 @@ export function formatTime (time: number) {
   const ss = strRepeat(time, 2);
   return hh >= 1 ? `${hh}:${mm}:${ss}` : `${mm}:${ss}`;
 }
-
-/**
- * 🚫[REMOVED IN 0.2.0]给obj对象扩展上trans方法，用以实现methodName对应的属性方法包装为静态函数且保持上下文的功能
- * @param  {Object} obj 目标对象
- */
-// export function addTransMethod (obj: Object) {
-//   setFrozenAttr(obj, 'trans', (methodName: string) => {
-//     if (!obj.__fns) {
-//       setFrozenAttr(obj, '__fns', {});
-//     }
-//     if (!obj.__fns[methodName]) {
-//       obj.__fns[methodName] = (...args: any) => {
-//         if(!isFunction(obj[methodName])) throw TypeError('obj.trans(methodName) parameter must be Function');
-//         return obj[methodName](...args);
-//       };
-//     }
-//     return obj.__fns[methodName];
-//   });
-// }
 
 /**
  * 追加样式代码到head的style标签，不存在则创建

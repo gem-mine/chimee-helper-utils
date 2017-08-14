@@ -32,7 +32,7 @@ if you are using `flow`, you should import our flow defination, by adding this t
 
 ### inBrowser
 
-[src/index.js:8-10](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L8-L10 "Source code on GitHub")
+[src/index.js:8-10](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L8-L10 "Source code on GitHub")
 
 check if the code running in browser environment (not include worker env)
 
@@ -40,7 +40,7 @@ Returns **[Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 
 ### makeArray
 
-[src/index.js:16-18](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L16-L18 "Source code on GitHub")
+[src/index.js:16-18](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L16-L18 "Source code on GitHub")
 
 转变一个类数组对象为数组
 
@@ -52,7 +52,7 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 ### transObjectAttrIntoArray
 
-[src/index.js:27-33](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L27-L33 "Source code on GitHub")
+[src/index.js:27-33](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L27-L33 "Source code on GitHub")
 
 sort Object attributes by function
 and transfer them into array
@@ -66,7 +66,7 @@ Returns **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refere
 
 ### runRejectableQueue
 
-[src/index.js:39-56](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L39-L56 "Source code on GitHub")
+[src/index.js:39-56](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L39-L56 "Source code on GitHub")
 
 run a queue one by one.If include function reject or return false it will stop
 
@@ -79,7 +79,7 @@ Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refe
 
 ### runStoppableQueue
 
-[src/index.js:62-74](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L62-L74 "Source code on GitHub")
+[src/index.js:62-74](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L62-L74 "Source code on GitHub")
 
 run a queue one by one.If include function return false it will stop
 
@@ -90,22 +90,9 @@ run a queue one by one.If include function return false it will stop
 
 Returns **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** tell the user if the queue run finished
 
-### setFrozenAttr
-
-[src/index.js:79-88](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L79-L88 "Source code on GitHub")
-
-🚫[DEPRECATED]set an attribute to an object which is frozen.
-Means you can't remove it, iterate it or rewrite it.
-
-**Parameters**
-
--   `obj` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
--   `key` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `value` **any** 
-
 ### throttle
 
-[src/index.js:200-248](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L200-L248 "Source code on GitHub")
+[src/index.js:186-234](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L186-L234 "Source code on GitHub")
 
 函数节流（控制函数执行频率）
 
@@ -127,19 +114,9 @@ Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 Returns **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** 
 
-### addTransMethod
-
-[src/index.js:291-304](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L291-L304 "Source code on GitHub")
-
-🚫[DEPRECATED]给obj对象扩展上trans方法，用以实现methodName对应的属性方法包装为静态函数且保持上下文的功能
-
-**Parameters**
-
--   `obj` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 目标对象
-
 ### appendCSS
 
-[src/index.js:311-321](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L311-L321 "Source code on GitHub")
+[src/index.js:278-288](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L278-L288 "Source code on GitHub")
 
 追加样式代码到head的style标签，不存在则创建
 
@@ -151,7 +128,7 @@ Returns **[HTMLElement](https://developer.mozilla.org/en-US/docs/Web/HTML/Elemen
 
 ### formatDate
 
-[src/index.js:329-347](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L329-L347 "Source code on GitHub")
+[src/index.js:296-314](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L296-L314 "Source code on GitHub")
 
 格式化日期对象为：年-月-日 时:分:秒.毫秒
 
@@ -164,7 +141,7 @@ Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### getLocalStorage
 
-[src/index.js:354-365](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L354-L365 "Source code on GitHub")
+[src/index.js:321-332](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L321-L332 "Source code on GitHub")
 
 读取本地存储的值（不支持localStorage则降级到cookie）
 
@@ -176,7 +153,7 @@ Returns **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Refer
 
 ### setLocalStorage
 
-[src/index.js:372-383](https://github.com/Chimeejs/chimee-helper-utils/blob/ac9a12c2c83013772d3f6fb0999648fe4dd84bdd/src/index.js#L372-L383 "Source code on GitHub")
+[src/index.js:339-350](https://github.com/Chimeejs/chimee-helper-utils/blob/bbecaf917f2d9b21704bfae1a25ebe4a10383200/src/index.js#L339-L350 "Source code on GitHub")
 
 将指定key对应值写入本地存储（不支持localStorage则降级到cookie）
 
