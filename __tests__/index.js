@@ -104,18 +104,18 @@ test('decodeUTF8', () => {
   });
 });
 
-test('setFrozenAttr', () => {
-  const obj = {};
-  expect(() => utils.setFrozenAttr(obj, 1, 1)).toThrow();
-  expect(() => utils.setFrozenAttr(1, 1, 1)).toThrow();
-  utils.setFrozenAttr(obj, 'test', 1);
-  expect(obj.test).toBe(1);
-  expect(() => {obj.test = 2;}).toThrow();
-  expect(() => {delete obj.test;}).toThrow();
-  const keys = [];
-  for(const key in obj) keys.push(key);
-  expect(keys).toEqual([]);
-});
+// test('setFrozenAttr', () => {
+//   const obj = {};
+//   expect(() => utils.setFrozenAttr(obj, 1, 1)).toThrow();
+//   expect(() => utils.setFrozenAttr(1, 1, 1)).toThrow();
+//   utils.setFrozenAttr(obj, 'test', 1);
+//   expect(obj.test).toBe(1);
+//   expect(() => {obj.test = 2;}).toThrow();
+//   expect(() => {delete obj.test;}).toThrow();
+//   const keys = [];
+//   for(const key in obj) keys.push(key);
+//   expect(keys).toEqual([]);
+// });
 
 test('transObjectAttrIntoArray', () => {
   expect(utils.transObjectAttrIntoArray({})).toEqual([]);
@@ -236,22 +236,22 @@ test('formatTime', () => {
 });
 
 
-describe('addTransMethod', () => {
-  const obj = {
-    val: 123,
-    test(){
-      expect(this.val).toBe(123);
-    }
-  };
-  test('add trans', () => {
-    utils.addTransMethod(obj);
-    expect(typeof obj.trans).toBe('function');
-  });
-  test('run trans', () => {
-    obj.trans('test')();
-    expect(obj.trans('test_')).toThrow('obj.trans(methodName) parameter must be Function');
-  });
-});
+// describe('addTransMethod', () => {
+//   const obj = {
+//     val: 123,
+//     test(){
+//       expect(this.val).toBe(123);
+//     }
+//   };
+//   test('add trans', () => {
+//     utils.addTransMethod(obj);
+//     expect(typeof obj.trans).toBe('function');
+//   });
+//   test('run trans', () => {
+//     obj.trans('test')();
+//     expect(obj.trans('test_')).toThrow('obj.trans(methodName) parameter must be Function');
+//   });
+// });
 
 test('appendCSS', () => {
   const cssText = `
