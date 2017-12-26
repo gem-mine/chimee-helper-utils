@@ -1,5 +1,5 @@
 // @flow
-import {isArray, isFunction} from 'toxic-predicate-functions';
+import { isArray, isFunction } from 'toxic-predicate-functions';
 // **********************  judgement   ************************
 /**
  * check if the code running in browser environment (not include worker env)
@@ -13,7 +13,7 @@ export const inBrowser =
 /**
  * 转变一个类数组对象为数组
  */
-export function makeArray (obj: any): Array<any> {
+export function makeArray(obj: any): Array<any> {
   return Array.from(obj);
 }
 
@@ -24,29 +24,29 @@ export function makeArray (obj: any): Array<any> {
  * @param  {Function} fn sort function
  * @return {Array} the sorted attirbutes array
  */
-export function transObjectAttrIntoArray (obj: Object, fn: Function = (a, b) => +a - +b): Array<string> {
+export function transObjectAttrIntoArray(obj: Object, fn: Function = (a, b) => +a - +b): Array<string> {
   return Object.keys(obj)
-  .sort(fn)
-  .reduce((order, key) => {
-    return order.concat(obj[key]);
-  }, []);
+    .sort(fn)
+    .reduce((order, key) => {
+      return order.concat(obj[key]);
+    }, []);
 }
 /**
  * run a queue one by one.If include function reject or return false it will stop
  * @param  {Array} queue the queue which we want to run one by one
  * @return {Promise}    tell us whether a queue run finished
  */
-export function runRejectableQueue (queue: Array<any>, ...args: any): Promise<*> {
+export function runRejectableQueue(queue: Array<any>, ...args: any): Promise<*> {
   return new Promise((resolve, reject) => {
     const step = index => {
-      if(index >= queue.length) {
+      if (index >= queue.length) {
         resolve();
         return;
       }
       const result = isFunction(queue[index])
         ? queue[index](...args)
         : queue[index];
-      if(result === false) return reject('stop');
+      if (result === false) return reject('stop');
       return Promise.resolve(result)
         .then(() => step(index + 1))
         .catch(err => reject(err || 'stop'));
@@ -59,34 +59,34 @@ export function runRejectableQueue (queue: Array<any>, ...args: any): Promise<*>
  * @param  {Array} queue the queue which we want to run one by one
  * @return {boolean} tell the user if the queue run finished
  */
-export function runStoppableQueue (queue: Array<any>, ...args: any): boolean {
+export function runStoppableQueue(queue: Array<any>, ...args: any): boolean {
   const step = index => {
-    if(index >= queue.length) {
+    if (index >= queue.length) {
       return true;
     }
     const result = isFunction(queue[index])
       ? queue[index](...args)
       : queue[index];
-    if(result === false) return false;
+    if (result === false) return false;
     return step(++index);
   };
   return step(0);
 }
 
-function checkContinuation (uint8array, start, checkLength) {
+function checkContinuation(uint8array, start, checkLength) {
   const array = uint8array;
   if (start + checkLength < array.length) {
     while (checkLength--) {
-      if ((array[++start] & 0xC0) !== 0x80) {return false;}
+      if ((array[++start] & 0xC0) !== 0x80) { return false; }
     }
     return true;
-  } else {
-    return false;
   }
+  return false;
+
 }
 
 // decodeUTF8
-export function decodeUTF8 (uint8array: any) {
+export function decodeUTF8(uint8array: any) {
   const out = [];
   const input = uint8array;
   let i = 0;
@@ -98,7 +98,7 @@ export function decodeUTF8 (uint8array: any) {
       ++i;
       continue;
     } else if (input[i] < 0xC0) {
-            // fallthrough
+      // fallthrough
     } else if (input[i] < 0xE0) {
       if (checkContinuation(input, i, 1)) {
         const ucs4 = (input[i] & 0x1F) << 6 | (input[i + 1] & 0x3F);
@@ -136,11 +136,15 @@ export function decodeUTF8 (uint8array: any) {
   return out.join('');
 }
 
-export function debounce (func: Function, wait: number, immediate: boolean) {
+export function debounce(func: Function, wait: number, immediate: boolean) {
   // immediate默认为false
-  let timeout, args: any, context, timestamp, result;
+  let timeout,
+    args: any,
+    context,
+    timestamp,
+    result;
 
-  const later = function () {
+  const later = function() {
     // 当wait指定的时间间隔期间多次调用_.debounce返回的函数，则会不断更新timestamp的值，导致last < wait && last >= 0一直为true，从而不断启动新的计时器延时执行func
     const last = new Date() - timestamp;
 
@@ -155,7 +159,7 @@ export function debounce (func: Function, wait: number, immediate: boolean) {
     }
   };
 
-  return function () {
+  return function() {
     context = this;
     args = arguments;
     timestamp = new Date();
@@ -170,7 +174,7 @@ export function debounce (func: Function, wait: number, immediate: boolean) {
 
     return result;
   };
-};
+}
 
 /**
  * 函数节流（控制函数执行频率）
@@ -183,7 +187,7 @@ export function debounce (func: Function, wait: number, immediate: boolean) {
  * @return {Object}   cxt 上下文对象
  * @return {Function}
  */
-export function throttle (func: Function, wait: number, options: any, cxt: any) {
+export function throttle(func: Function, wait: number, options: any, cxt: any) {
   /* options的默认值
    *  表示首次调用返回值方法时，会马上调用func；否则仅会记录当前时刻，当第二次调用的时间间隔超过wait时，才调用func。
    *  options.leading = true;
@@ -191,23 +195,25 @@ export function throttle (func: Function, wait: number, options: any, cxt: any) 
    *  options.trailing = true;
    * 注意：当options.trailing = false时，效果与上面的简单实现效果相同
    */
-  let context, args: any, result;
+  let context,
+    args: any,
+    result;
   let timeout = null;
   let previous = 0;
   if (!options) options = {};
-  const later = function () {
+  const later = function() {
     previous = options.leading === false ? 0 : new Date() - 0;
     timeout = null;
     result = func.apply(context, args);
     if (!timeout) context = args = null;
   };
   wait = wait || 0;
-  return function () {
+  return function() {
     const now = new Date();
     if (!previous && options.leading === false) previous = now;
     // 计算剩余时间
     const remaining = wait - (now - previous);
-    if(cxt) {
+    if (cxt) {
       context = cxt;
     } else {
       context = this;
@@ -231,27 +237,35 @@ export function throttle (func: Function, wait: number, options: any, cxt: any) 
     }
     return result;
   };
-};
+}
 
 // requestAnimationFrame
-export const raf = window.requestAnimationFrame ||
+export const raf = (
+  inBrowser && (
+    window.requestAnimationFrame ||
     window.mozRequestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
     window.msRequestAnimationFrame ||
-    window.oRequestAnimationFrame ||
-    function (cb) { return setTimeout(cb, 17); };
+    window.oRequestAnimationFrame
+  )
+) ||
+  function(cb: Function) { return setTimeout(cb, 17); };
 
 // cancelAnimationFrame
-export const caf = window.cancelAnimationFrame ||
+export const caf = (
+  inBrowser && (
+    window.cancelAnimationFrame ||
     window.mozCancelAnimationFrame ||
     window.webkitCancelAnimationFrame ||
     window.webkitCancelRequestAnimationFrame ||
     window.msCancelAnimationFrame ||
-    window.oCancelAnimationFrame ||
-    function (id) { clearTimeout(id); };
+    window.oCancelAnimationFrame
+  )
+) ||
+  function(id: number) { clearTimeout(id); };
 
 // 根据要求的位数，将9格式化为 09\009\0009...
-export function strRepeat (num: any, bit: number) {
+export function strRepeat(num: any, bit: number) {
   const pBit = bit;
   num = `${num || ''}`;
   const numLen = num.length;
@@ -261,7 +275,7 @@ export function strRepeat (num: any, bit: number) {
 }
 
 // video 时间格式化
-export function formatTime (time: number) {
+export function formatTime(time: number) {
   const hh = Math.floor(time / 3600);
   time = Math.floor(time % 3600);
   const mm = strRepeat(Math.floor(time / 60), 2);
@@ -275,7 +289,7 @@ export function formatTime (time: number) {
  * @param {String} cssText 样式文本
  * @return {HTMLElement}
  */
-export function appendCSS (cssText: string) {
+export function appendCSS(cssText: string) {
   const doc = document;
   let styleEl = doc.querySelector('style');
   if (!styleEl) {
@@ -293,7 +307,7 @@ export function appendCSS (cssText: string) {
  * @param {String} pattern 要输出的日期格式，默认：`yyyy-MM-dd hh:mm:ss.i`
  * @return {String}
  */
-export function formatDate (date: Date = new Date(), pattern: string = 'yyyy-MM-dd hh:mm:ss.i'): string {
+export function formatDate(date: Date = new Date(), pattern: string = 'yyyy-MM-dd hh:mm:ss.i'): string {
   const year = date.getFullYear().toString();
   const fields = {
     M: date.getMonth() + 1,
@@ -301,7 +315,7 @@ export function formatDate (date: Date = new Date(), pattern: string = 'yyyy-MM-
     h: date.getHours(),
     m: date.getMinutes(),
     s: date.getSeconds(),
-    i: date.getMilliseconds()
+    i: date.getMilliseconds(),
   };
   pattern = pattern.replace(/(y+)/ig, (_, yearPattern) => year.substr(4 - Math.min(4, yearPattern.length)));
   for (const i in fields) {
@@ -318,14 +332,14 @@ export function formatDate (date: Date = new Date(), pattern: string = 'yyyy-MM-
  * @param {String} key 目标数据key
  * @return {String}
  */
-export function getLocalStorage (key: string): string | null | void {
+export function getLocalStorage(key: string): string | null | void {
   try {
     return window.localStorage.getItem(key);
-  } catch(e) {
+  } catch (e) {
     try {
       const regRt = document.cookie.match(new RegExp('(^| )' + key + '=([^;]*)(;|$)'));
       return isArray(regRt) ? unescape(regRt[2]) : '';
-    } catch(e) {
+    } catch (e) {
       return '';
     }
   }
@@ -336,15 +350,17 @@ export function getLocalStorage (key: string): string | null | void {
  * @param {String} val
  * @return {String}
  */
-export function setLocalStorage (key: string, val: string) {
+export function setLocalStorage(key: string, val: string) {
   try {
     window.localStorage.setItem(key, val);
-  } catch(e) {
+  } catch (e) {
     const expires = new Date();
     // 默认存储300天
     expires.setTime(expires.getTime() + 24 * 3600 * 1000 * 300);
     try {
       document.cookie = key + '=' + escape(val) + ';expires=' + expires.toUTCString() + ';path=/;';
-    } catch(e) {}
+    } catch (e) {
+      console.error(e);
+    }
   }
 }
