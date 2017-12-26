@@ -196,7 +196,7 @@ test('animationFrame', done => {
   const staDate = new Date();
   utils.raf(() => {
     // 模拟时定时器延迟为17毫秒
-    expect(new Date() - staDate).toBeGreaterThanOrEqual(17);
+    expect(new Date() - staDate).toBeGreaterThanOrEqual(16);
     done();
   });
 
