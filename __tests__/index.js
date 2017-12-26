@@ -5,37 +5,37 @@ describe('runRejectableQueue', async () => {
     expect(utils.runRejectableQueue([])).resolves.toBe();
   });
   test('no function', () => {
-    expect(utils.runRejectableQueue([1, 2, 3])).resolves.toBe();
+    expect(utils.runRejectableQueue([ 1, 2, 3 ])).resolves.toBe();
   });
   test('no function but has a false', () => {
-    expect(utils.runRejectableQueue([1, 2, false, 3])).rejects.toMatch('stop');
+    expect(utils.runRejectableQueue([ 1, 2, false, 3 ])).rejects.toMatch('stop');
   });
   test('functions', () => {
     expect(utils.runRejectableQueue([
       () => {},
       () => {},
-      () => {}
+      () => {},
     ])).resolves.toBe();
   });
   test('functions and promise', () => {
     expect(utils.runRejectableQueue([
       () => {},
       Promise.resolve(),
-      () => new Promise(resolve => resolve())
+      () => new Promise(resolve => resolve()),
     ])).resolves.toBe();
   });
   test('function and promise.reject', () => {
     expect(utils.runRejectableQueue([
       () => {},
       Promise.reject(),
-      () => new Promise(resolve => resolve())
+      () => new Promise(resolve => resolve()),
     ])).rejects.toMatch('stop');
   });
   test('function return promise.reject', () => {
     expect(utils.runRejectableQueue([
       () => {},
       Promise.resolve(),
-      () => new Promise((resolve, reject) => reject())
+      () => new Promise((resolve, reject) => reject()),
     ])).rejects.toMatch('stop');
   });
   test('order', async () => {
@@ -47,38 +47,38 @@ describe('runRejectableQueue', async () => {
       () => checkArray.push(3),
       () => checkArray.push(4),
     ])).rejects.toMatch('stop');
-    expect(checkArray).toEqual([1, 2]);
+    expect(checkArray).toEqual([ 1, 2 ]);
   });
   test('error catch', async () => {
     const error = new Error('i am an error');
     await expect(utils.runRejectableQueue([
       () => {},
       () => {},
-      () => {throw error;}
+      () => { throw error; },
     ])).rejects.toBe(error);
   });
   test('reject info catch', async () => {
-     await expect(utils.runRejectableQueue([
+    await expect(utils.runRejectableQueue([
       () => {},
       () => Promise.reject('abc'),
-      () => {}
+      () => {},
     ])).rejects.toBe('abc');
   });
 });
 
 test('runStoppableQueue', async () => {
   expect(utils.runStoppableQueue([])).toBe(true);
-  expect(utils.runStoppableQueue([1, 2, 3])).toBe(true);
-  expect(utils.runStoppableQueue([1, 2, false, 3])).toBe(false);
+  expect(utils.runStoppableQueue([ 1, 2, 3 ])).toBe(true);
+  expect(utils.runStoppableQueue([ 1, 2, false, 3 ])).toBe(false);
   expect(utils.runStoppableQueue([
     () => {},
     () => {},
-    () => {}
+    () => {},
   ])).toBe(true);
   expect(utils.runStoppableQueue([
     () => {},
     Promise.resolve(),
-    () => new Promise(resolve => resolve())
+    () => new Promise(resolve => resolve()),
   ])).toBe(true);
   const checkArray = [];
   await expect(utils.runStoppableQueue([
@@ -88,16 +88,16 @@ test('runStoppableQueue', async () => {
     () => checkArray.push(3),
     () => checkArray.push(4),
   ])).toBe(false);
-  expect(checkArray).toEqual([1, 2]);
+  expect(checkArray).toEqual([ 1, 2 ]);
 });
 
 test('decodeUTF8', () => {
   const examples = [
     new Uint8Array(10),
-    new Uint8Array(10).map((v, i)=>{ return 0x70; }),
-    new Uint8Array(10).map((v, i)=>{ return 0xA0; }),
-    new Uint8Array(10).map((v, i)=>{ return 0xE0; }),
-    new Uint8Array(10).map((v, i)=>{ return 0xF7; })
+    new Uint8Array(10).map(() => { return 0x70; }),
+    new Uint8Array(10).map(() => { return 0xA0; }),
+    new Uint8Array(10).map(() => { return 0xE0; }),
+    new Uint8Array(10).map(() => { return 0xF7; }),
   ];
   examples.forEach(example => {
     expect(utils.decodeUTF8(example)).toHaveLength(10);
@@ -119,49 +119,48 @@ test('decodeUTF8', () => {
 
 test('transObjectAttrIntoArray', () => {
   expect(utils.transObjectAttrIntoArray({})).toEqual([]);
-  expect(utils.transObjectAttrIntoArray({1: 'a', 2: 'b'})).toEqual(['a', 'b']);
-  expect(utils.transObjectAttrIntoArray({1: 'a', 2: 'b'}, (b, a) => +a - +b)).toEqual(['b', 'a']);
+  expect(utils.transObjectAttrIntoArray({ 1: 'a', 2: 'b' })).toEqual([ 'a', 'b' ]);
+  expect(utils.transObjectAttrIntoArray({ 1: 'a', 2: 'b' }, (b, a) => +a - +b)).toEqual([ 'b', 'a' ]);
 });
-describe('throttle - 节流函数', () =>{
-  test('throttle', done => { 
+describe('throttle - 节流函数', () => {
+  test('throttle', done => {
     const staDate = new Date();
     const throttleFn = utils.throttle(() => {
-      expect(new Date - staDate).toBeGreaterThanOrEqual(0);
+      expect(new Date() - staDate).toBeGreaterThanOrEqual(0);
       done();
     });
     throttleFn();
   });
-  test('throttle once', done => { 
+  test('throttle once', done => {
     // 100 毫秒内调用多次，只执行1次
     let count = 0;
     const fn = utils.throttle(() => {
-      count ++;
-      //console.log('count:', count);
+      count++;
+      // console.log('count:', count);
       expect(count).toBe(1);
       done();
     }, 100);
-    for(let i=0; i<10; i++) fn();
+    for (let i = 0; i < 10; i++) fn();
   });
   test('throttle Wait', done => {
     const staDate = new Date();
     const throttleWaitFn = utils.throttle(() => {
-      expect(new Date - staDate).toBeGreaterThanOrEqual(10);
+      expect(new Date() - staDate).toBeGreaterThanOrEqual(10);
       done();
-    },10, { leading: false });
+    }, 10, { leading: false });
     throttleWaitFn();
   });
   test('throttle Wait&Timeout', done => {
-    const staDate = new Date();
     const fn = utils.throttle(() => {
       done();
       return 123;
     }, 10, { leading: false, trailing: true });
     fn(); // 不到点调用，启用定时器
     const _date = window.Date;
-    window.Date = function(){
-      this.valueOf = function(){
-        return new _date()-100;
-      }
+    window.Date = function() {
+      this.valueOf = function() {
+        return new _date() - 100;
+      };
     };
     fn();
     window.Date = _date;
@@ -170,9 +169,9 @@ describe('throttle - 节流函数', () =>{
   test('throttle Ctx', done => {
     const staDate = new Date();
     const throttleFn = utils.throttle(() => {
-      expect(new Date - staDate).toBeGreaterThanOrEqual(0);
+      expect(new Date() - staDate).toBeGreaterThanOrEqual(0);
       done();
-    }, 0, {}, {ctx: 'isMe'});
+    }, 0, {}, { ctx: 'isMe' });
     throttleFn();
   });
 });
@@ -195,9 +194,9 @@ test('animationFrame', done => {
 
   // requestAnimationFrame
   const staDate = new Date();
-  utils.raf(()=>{
+  utils.raf(() => {
     // 模拟时定时器延迟为17毫秒
-    expect(new Date - staDate).toBeGreaterThanOrEqual(17);
+    expect(new Date() - staDate).toBeGreaterThanOrEqual(17);
     done();
   });
 
