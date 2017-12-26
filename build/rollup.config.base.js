@@ -1,4 +1,4 @@
-const {version, name, author, license} = require('../package.json');
+const { version, name, author, license, dependencies } = require('../package.json');
 const banner = `
 /**
  * ${name} v${version}
@@ -10,58 +10,136 @@ import flow from 'rollup-plugin-flow-no-whitespace';
 import babel from 'rollup-plugin-babel';
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import replace from 'rollup-plugin-replace';
+import visualizer from 'rollup-plugin-visualizer';
 const babelConfig = {
   common: {
     presets: [
       'flow',
-      ['latest', {es2015: {modules: false}}]
+      [ 'env', {
+        modules: false,
+        targets: {
+          browsers: [ 'last 2 versions', 'not ie <= 8' ],
+        },
+      }],
+      'stage-0',
     ],
-    plugins: ['transform-runtime'],
     exclude: 'node_modules/**',
+    plugins: [
+      'external-helpers',
+      'transform-decorators-legacy',
+      'transform-runtime',
+    ],
+    externalHelpers: true,
     runtimeHelpers: true,
-    babelrc: false
+    babelrc: false,
   },
   es: {
     presets: [
       'flow',
-      ['latest', {es2015: {modules: false}}]
+      [ 'env', {
+        modules: false,
+        targets: {
+          browsers: [ 'last 2 versions', 'not ie <= 8' ],
+        },
+      }],
+      'stage-0',
     ],
-    plugins: ['transform-runtime'],
     exclude: 'node_modules/**',
+    plugins: [
+      'external-helpers',
+      'transform-decorators-legacy',
+      'transform-runtime',
+    ],
+    externalHelpers: true,
     runtimeHelpers: true,
-    babelrc: false
+    babelrc: false,
   },
   umd: {
-    presets: ['flow', 'es2015-rollup'],
-    plugins: ['transform-runtime'],
+    presets: [
+      'flow',
+      [ 'env', {
+        modules: false,
+        targets: {
+          browsers: [ 'last 2 versions', 'not ie <= 8' ],
+        },
+      }],
+      'stage-0',
+    ],
     exclude: 'node_modules/**',
+    plugins: [
+      'external-helpers',
+      'transform-decorators-legacy',
+      'transform-runtime',
+    ],
+    externalHelpers: true,
     runtimeHelpers: true,
-    babelrc: false
+    babelrc: false,
   },
   iife: {
-    presets: ['flow', 'es2015-rollup'],
-    plugins: [],
-    babelrc: false
+    presets: [
+      'flow',
+      [ 'env', {
+        modules: false,
+        targets: {
+          browsers: [ 'last 2 versions', 'not ie <= 8' ],
+        },
+      }],
+      'stage-0',
+    ],
+    exclude: 'node_modules/**',
+    plugins: [
+      'external-helpers',
+      'transform-decorators-legacy',
+      'transform-runtime',
+    ],
+    externalHelpers: true,
+    runtimeHelpers: true,
+    babelrc: false,
   },
   min: {
-    presets: ['flow', 'es2015-rollup'],
+    presets: [
+      'flow',
+      [ 'env', {
+        modules: false,
+        targets: {
+          browsers: [ 'last 2 versions', 'not ie <= 8' ],
+        },
+      }],
+      'stage-0',
+    ],
     exclude: 'node_modules/**',
-    plugins: [],
-    babelrc: false
-  }
+    plugins: [
+      'external-helpers',
+      'transform-decorators-legacy',
+    ],
+    runtimeHelpers: true,
+    babelrc: false,
+  },
 };
-export default function (mode) {
+const externalRegExp = new RegExp(Object.keys(dependencies).join('|'));
+export default function(mode) {
   return {
-    entry: 'src/index.js',
+    input: 'src/index.js',
     banner,
-    external (id) {
-      return !/min|umd|iife/.test(mode) && /babel-runtime|toxic-predicate-functions|toxic-utils/.test(id);
+    external(id) {
+      return !/min|umd|iife/.test(mode) && externalRegExp.test(id);
     },
     plugins: [
       babel(babelConfig[mode]),
       flow(),
-      resolve(),
-      commonjs()
-    ]
+      resolve({
+        customResolveOptions: {
+          moduleDirectory: [ 'src', 'node_modules' ],
+        },
+      }),
+      commonjs(),
+      replace({
+        'process.env.PLAYER_VERSION': `'${version}'`,
+      }),
+      visualizer({
+        filename: `bundle-size/${mode}.html`,
+      }),
+    ],
   };
-};
+}
