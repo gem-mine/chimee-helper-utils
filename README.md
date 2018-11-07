@@ -4,7 +4,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/Chimeejs/chimee-helper-utils/master.svg?style=flat-square)](https://coveralls.io/github/Chimeejs/chimee-helper-utils?branch=master)
 [![npm](https://img.shields.io/npm/v/chimee-helper-utils.svg?colorB=brightgreen&style=flat-square)](https://www.npmjs.com/package/chimee-helper-utils)
 [![dependency Status](https://david-dm.org/Chimeejs/chimee-helper-utils.svg)](https://david-dm.org/Chimeejs/chimee-helper-utils)
-[![devDependency Status](https://david-dm.org/Chimeejs/chimee-helper-utils/dev-status.svg)](https://david-dm.org/Chimeejs/chimee-helper-utils?type=dev)
+[![devDependency Status](https://david-dm.org/Chimeejs/chimee-helper-utils/dev-status.svg)](https://david-dm.org/Chimeejs/chimee-helper-utils?type=dev) [![Greenkeeper badge](https://badges.greenkeeper.io/Chimeejs/chimee-helper-utils.svg)](https://greenkeeper.io/)
 
 utils of chimee
 
