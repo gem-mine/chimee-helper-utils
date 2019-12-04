@@ -276,6 +276,9 @@ export function strRepeat(num: any, bit: number) {
 
 // video 时间格式化
 export function formatTime(time: number) {
+  if (!window.isFinite(time)) {
+    return '';
+  }
   const hh = Math.floor(time / 3600);
   time = Math.floor(time % 3600);
   const mm = strRepeat(Math.floor(time / 60), 2);
