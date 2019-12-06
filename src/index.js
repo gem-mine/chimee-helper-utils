@@ -276,7 +276,7 @@ export function strRepeat(num: any, bit: number) {
 
 // video 时间格式化
 export function formatTime(time: number) {
-  if (!window.isFinite(time)) {
+  if (!isFinite(time)) {
     return '';
   }
   const hh = Math.floor(time / 3600);
