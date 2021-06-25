@@ -1,5 +1,5 @@
 {
-  "name": "chimee-helper-utils",
+  "name": "@gem-mine/chimee-helper-utils",
   "version": "0.2.2",
   "description": "utils of chimee",
   "main": "lib/index.js",
